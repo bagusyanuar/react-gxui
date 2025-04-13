@@ -1,6 +1,7 @@
 
 :root {
     --primary-color: #555ab9;
+    --accent-color: #b9555a;
 }
 
 @keyframes spin {

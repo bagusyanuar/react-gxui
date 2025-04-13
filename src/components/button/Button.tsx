@@ -1,51 +1,60 @@
 import React from 'react'
-import { StyledButton, StyledLoaderWrapper, StyledSpinner } from './styled'
+import styled from 'styled-components'
 import { IButton } from './types'
+import { ButtonVariant, ButtonSize } from './enum'
+import { VARIANT_BACKGROUND, VARIANT_HOVER_BACKGROUND, BUTTON_VARIANT } from './const'
+import ButtonLoader from './ButtonLoader'
+
+export const StyledButton = styled.button<{
+    $variant: ButtonVariant,
+    $size: ButtonSize
+}>`
+    background-color: ${({ $variant }) => BUTTON_VARIANT[$variant].background};
+    cursor: pointer;
+    padding: .75rem 1.75rem;
+    color: ${({ $variant }) => BUTTON_VARIANT[$variant].color};
+    border: ${({ $variant }) => BUTTON_VARIANT[$variant].border};
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    border-radius: .25rem;
+    font-size: ${({ $size }) => $size === ButtonSize.Small ? '0.875rem' : '1rem'};
+
+    &:hover {
+        background-color: ${({ $variant }) => BUTTON_VARIANT[$variant].hoverBackground};
+        color: ${({ $variant }) => BUTTON_VARIANT[$variant].hoverColor};
+    }
+
+    &:disabled {
+        background-color: ${({ $variant }) => $variant === ButtonVariant.Accent ? 'color-mix(in srgb, black 20%, var(--accent-color))' : 'color-mix(in srgb, black 20%, var(--primary-color))'};
+        cursor: default;
+    }
+`
 
 const Button: React.FC<IButton> = ({
     children,
     loading,
-    disabled
+    disabled,
+    onClick,
+    variant = ButtonVariant.Primary,
+    size = ButtonSize.Normal,
+    className
 }) => {
     return (
-        <StyledButton>
+        <StyledButton
+            onClick={onClick}
+            disabled={disabled || loading}
+            className={className}
+            $variant={variant}
+            $size={size}
+        >
             {
                 !loading ?
                     (children ?? <span>Button</span>)
                     :
-                    (
-                        <StyledLoaderWrapper>
-                            <Spinner
-                                size={16}
-                            />
-                            <span style={{ color: 'inherit' }}>Loading..</span>
-                        </StyledLoaderWrapper>
-                    )
+                    <ButtonLoader size={size === ButtonSize.Small ? 14 : 16} />
             }
-
         </StyledButton>
     )
 }
 
 export default Button
-
-const Spinner: React.FC<{ size: number }> = ({ size }) => {
-    return (
-        <StyledSpinner
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            $size={size}
-        >
-            <g>
-                <circle cx="3" cy="12" r="1.5" className="fill-current" />
-                <circle cx="21" cy="12" r="1.5" className="fill-current" />
-                <circle cx="12" cy="21" r="1.5" className="fill-current" />
-                <circle cx="12" cy="3" r="1.5" className="fill-current" />
-                <circle cx="5.64" cy="5.64" r="1.5" className="fill-current" />
-                <circle cx="18.36" cy="18.36" r="1.5" className="fill-current" />
-                <circle cx="5.64" cy="18.36" r="1.5" className="fill-current" />
-                <circle cx="18.36" cy="5.64" r="1.5" className="fill-current" />
-            </g>
-        </StyledSpinner>
-    )
-}
