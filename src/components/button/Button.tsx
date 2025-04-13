@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { IButton } from './types'
 import { ButtonVariant, ButtonSize } from './enum'
-import { VARIANT_BACKGROUND, VARIANT_HOVER_BACKGROUND, BUTTON_VARIANT } from './const'
+import { BUTTON_VARIANT, BUTTON_SIZE } from './const'
 import ButtonLoader from './ButtonLoader'
 
 export const StyledButton = styled.button<{
@@ -11,13 +11,16 @@ export const StyledButton = styled.button<{
 }>`
     background-color: ${({ $variant }) => BUTTON_VARIANT[$variant].background};
     cursor: pointer;
-    padding: .75rem 1.75rem;
+    padding: ${({ $size }) => BUTTON_SIZE[$size].padding};
     color: ${({ $variant }) => BUTTON_VARIANT[$variant].color};
-    border: ${({ $variant }) => BUTTON_VARIANT[$variant].border};
+    border-width: 1px;
+    border-style: solid;
+    border-color: ${({ $variant }) => BUTTON_VARIANT[$variant].border};
     outline: none;
     transition: all 0.2s ease-in-out;
     border-radius: .25rem;
-    font-size: ${({ $size }) => $size === ButtonSize.Small ? '0.875rem' : '1rem'};
+    font-size: ${({ $size }) => BUTTON_SIZE[$size].fontSize};
+    line-height: 1;
 
     &:hover {
         background-color: ${({ $variant }) => BUTTON_VARIANT[$variant].hoverBackground};
@@ -25,7 +28,9 @@ export const StyledButton = styled.button<{
     }
 
     &:disabled {
-        background-color: ${({ $variant }) => $variant === ButtonVariant.Accent ? 'color-mix(in srgb, black 20%, var(--accent-color))' : 'color-mix(in srgb, black 20%, var(--primary-color))'};
+        background-color: ${({ $variant }) => BUTTON_VARIANT[$variant].disabledBackgroud};
+        border-color: ${({ $variant }) => `color-mix(in srgb, white 65%, ${BUTTON_VARIANT[$variant].border})`};
+        color: ${({ $variant }) => `color-mix(in srgb, white 65%, ${BUTTON_VARIANT[$variant].color})`};
         cursor: default;
     }
 `
@@ -51,7 +56,10 @@ const Button: React.FC<IButton> = ({
                 !loading ?
                     (children ?? <span>Button</span>)
                     :
-                    <ButtonLoader size={size === ButtonSize.Small ? 14 : 16} />
+                    <ButtonLoader
+                        size={size}
+                        variant={variant}
+                    />
             }
         </StyledButton>
     )
