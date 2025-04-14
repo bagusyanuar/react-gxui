@@ -5,7 +5,7 @@ import { ButtonVariant, ButtonSize } from './enum'
 import { BUTTON_VARIANT, BUTTON_SIZE } from './const'
 import ButtonLoader from './ButtonLoader'
 
-export const StyledButton = styled.button<{
+const StyledButton = styled.button<{
     $variant: ButtonVariant,
     $size: ButtonSize
 }>`

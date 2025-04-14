@@ -25,7 +25,8 @@
   "peerDependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "styled-components": "^6.1.17"
+    "styled-components": "^6.1.17",
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.6.12",
@@ -38,8 +39,10 @@
     "@types/react": "^19.1.1",
     "@types/react-dom": "^19.1.2",
     "storybook": "^8.6.12",
+    "styled-components": "^6.1.17",
     "tsconfig-paths": "^4.2.0",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "react-icons": "^5.5.0"
   }
 }
