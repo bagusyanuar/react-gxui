@@ -14,3 +14,7 @@
 .animate-spin {
     animation: spin 1s linear infinite;
 }
+
+body {
+    font-family: 'Arial', sans-serif;
+}

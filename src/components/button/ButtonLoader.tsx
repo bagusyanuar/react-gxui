@@ -1,10 +1,10 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { ButtonVariant, ButtonSize } from './enum'
+import { TVariant, TSize } from './types'
 import { BUTTON_VARIANT, BUTTON_SIZE } from './const'
 
 
-export const StyledWrapper = styled.div<{ $variant: ButtonVariant }>`
+export const StyledWrapper = styled.div<{ $variant: TVariant }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,7 +20,7 @@ const spin = keyframes`
 `;
 
 
-export const StyledSpinner = styled.svg<{ $size: ButtonSize }>`
+export const StyledSpinner = styled.svg<{ $size: TSize }>`
     width: ${({ $size }) => BUTTON_SIZE[$size].fontSize};
     height: ${({ $size }) => BUTTON_SIZE[$size].fontSize};
     animation: ${spin} 1s linear infinite;
@@ -33,12 +33,12 @@ export const StyledSpinner = styled.svg<{ $size: ButtonSize }>`
 
 const ButtonLoader: React.FC<{
     text?: string,
-    size?: ButtonSize,
-    variant?: ButtonVariant,
+    size?: TSize,
+    variant?: TVariant,
 }> = ({
     text = 'loading...',
-    size = ButtonSize.Normal,
-    variant = ButtonVariant.Primary
+    size = 'normal',
+    variant = 'primary'
 }) => {
         return (
             <StyledWrapper

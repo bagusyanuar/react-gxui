@@ -1,6 +1,7 @@
 import { ButtonVariant, ButtonSize } from './enum'
+import {TVariant, TSize} from './types'
 
-type TVariant = {
+type TButtonVariant = {
     background: string;
     color: string;
     hoverBackground: string;
@@ -9,13 +10,13 @@ type TVariant = {
     disabledBackgroud: string;
 }
 
-type TSize = {
+type TButtonSize = {
     fontSize: string;
     padding: string;
 }
 
-export const BUTTON_VARIANT: Record<ButtonVariant, TVariant> = {
-    [ButtonVariant.Primary]: {
+export const BUTTON_VARIANT: Record<TVariant, TButtonVariant> = {
+    'primary': {
         background: 'var(--primary-color)',
         color: 'white',
         border: 'var(--primary-color)',
@@ -23,7 +24,7 @@ export const BUTTON_VARIANT: Record<ButtonVariant, TVariant> = {
         hoverColor: 'white',
         disabledBackgroud: 'color-mix(in srgb, black 20%, var(--primary-color))'
     },
-    [ButtonVariant.Accent]: {
+    'accent': {
         background: 'var(--accent-color)',
         color: 'white',
         border: 'var(--accent-color)',
@@ -31,7 +32,7 @@ export const BUTTON_VARIANT: Record<ButtonVariant, TVariant> = {
         hoverColor: 'white',
         disabledBackgroud: 'color-mix(in srgb, black 20%, var(--accent-color))'
     },
-    [ButtonVariant.PrimaryOutlined]: {
+    'primary-outlined': {
         background: 'white',
         color: 'var(--primary-color)',
         border: 'var(--primary-color)',
@@ -39,7 +40,7 @@ export const BUTTON_VARIANT: Record<ButtonVariant, TVariant> = {
         hoverColor: 'white',
         disabledBackgroud: 'white'
     },
-    [ButtonVariant.AccentOutlined]: {
+    'accent-outlined': {
         background: 'white',
         color: 'var(--accent-color)',
         border: 'var(--accent-color)',
@@ -49,16 +50,16 @@ export const BUTTON_VARIANT: Record<ButtonVariant, TVariant> = {
     },
 }
 
-export const BUTTON_SIZE: Record<ButtonSize, TSize> = {
-    [ButtonSize.Large]: {
+export const BUTTON_SIZE: Record<TSize, TButtonSize> = {
+    large: {
         fontSize: '1.25rem',
         padding: '0.75rem 2rem'
     },
-    [ButtonSize.Normal]: {
+    normal: {
         fontSize: '1rem',
         padding: '0.75rem 1.75rem'
     },
-    [ButtonSize.Small]: {
+    small: {
         fontSize: '0.75rem',
         padding: '0.5rem 1.25rem'
     }

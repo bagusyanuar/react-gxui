@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../components/button'
-import { ButtonVariant, ButtonSize } from '../../components/button/enum'
 
 const meta = {
     title: 'Component/Button',
@@ -15,8 +14,8 @@ const meta = {
     argTypes: {
         loading: { control: 'boolean' },
         disabled: { control: 'boolean' },
-        variant: { control: 'select', options: Object.values(ButtonVariant) },
-        size: { control: 'select', options: Object.values(ButtonSize) },
+        variant: { control: 'select', options: ['primary', 'accent', 'primary-outlined', 'accent-outlined'] },
+        size: { control: 'select', options: ['large', 'normal', 'small'] },
     },
     // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
     args: {},
@@ -28,6 +27,6 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary: Story = {
     args: {
-        variant: ButtonVariant.Primary,
+        variant: 'primary',
     },
 };

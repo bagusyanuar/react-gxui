@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { IButton } from './types'
-import { ButtonVariant, ButtonSize } from './enum'
+import { IButton, TVariant, TSize } from './types'
 import { BUTTON_VARIANT, BUTTON_SIZE } from './const'
 import ButtonLoader from './ButtonLoader'
 
 const StyledButton = styled.button<{
-    $variant: ButtonVariant,
-    $size: ButtonSize
+    $variant: TVariant,
+    $size: TSize
 }>`
     background-color: ${({ $variant }) => BUTTON_VARIANT[$variant].background};
     cursor: pointer;
@@ -40,8 +39,8 @@ const Button: React.FC<IButton> = ({
     loading,
     disabled,
     onClick,
-    variant = ButtonVariant.Primary,
-    size = ButtonSize.Normal,
+    variant = 'primary',
+    size = 'normal',
     className
 }) => {
     return (

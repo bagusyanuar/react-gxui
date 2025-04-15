@@ -29,8 +29,11 @@ const meta = {
     tags: ['autodocs'],
     // More on argTypes: https://storybook.js.org/docs/api/argtypes
     argTypes: {
+        label: { control: 'text' },
+        labelProps: {control: false},
+        inputProps: {control: false},
         size: {
-            control: 'select', 
+            control: 'select',
             options: ['large', 'normal', 'small'],
             table: {
                 type: {
@@ -52,7 +55,6 @@ const meta = {
             },
             table: {
                 type: { summary: 'IconType (from react-icons)' },
-                defaultValue: { summary: 'LuMail' },
             },
         },
     },
@@ -66,6 +68,8 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default: Story = {
     args: {
-        prefixIcon: LuMail
+        prefixIcon: LuMail,
+        size: 'normal',
+        label: 'Form Label',
     },
 };

@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { ITextfield, TSize } from './types'
-import { TEXTFIELD_SIZE, TEXTFIELD_ICON_SIZE } from './const'
+import { TEXTFIELD_SIZE, TEXTFIELD_ICON_SIZE, LABEL_SIZE } from './const'
 
-const StyledContainer = styled.div<{ $size: TSize }>`
+const StyledInputContainer = styled.div<{ $size: TSize }>`
     display: flex;
     align-items: center;
     padding-left: ${({ $size }) => TEXTFIELD_SIZE[$size].paddingHorizontal};
@@ -42,26 +42,46 @@ const StyledPrefixIcon = styled.div<{ $size: TSize }>`
     margin-right: ${({ $size }) => TEXTFIELD_ICON_SIZE[$size].spacer};
 `
 
+const StyledLabel = styled.label<{ $size: TSize }>`
+    margin-bottom: 0.25rem;
+    display: block;
+    color: var(--neutral-color);
+    font-size: ${({ $size }) => LABEL_SIZE[$size].fontSize};
+`
+
 const Textfield: React.FC<ITextfield> = ({
+    size = 'normal',
     prefixIcon: PrefixIcon,
-    size = 'normal'
+    label,
+    className,
+    inputProps,
+    labelProps
 }) => {
     return (
-        <StyledContainer
-            $size={size}
-        >
-            {PrefixIcon && (
-                <StyledPrefixIcon
-                    $size={size}
-                >
-                    <PrefixIcon size={TEXTFIELD_ICON_SIZE[size].iconSize} />
-                </StyledPrefixIcon>
-            )}
-            <StyledInput
-                type="text"
+        <div className={className}>
+            {label && (<StyledLabel
                 $size={size}
-            />
-        </StyledContainer>
+                {...labelProps}
+            >
+                {label}
+            </StyledLabel>)}
+            <StyledInputContainer
+                $size={size}
+            >
+                {PrefixIcon && (
+                    <StyledPrefixIcon
+                        $size={size}
+                    >
+                        <PrefixIcon size={TEXTFIELD_ICON_SIZE[size].iconSize} />
+                    </StyledPrefixIcon>
+                )}
+                <StyledInput
+                    type="text"
+                    $size={size}
+                    {...inputProps}
+                />
+            </StyledInputContainer>
+        </div>
     )
 }
 

@@ -5,7 +5,10 @@ export interface IButton {
     loading?: boolean;
     disabled?: boolean;
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-    variant?: ButtonVariant
-    size?: ButtonSize
+    variant?: TVariant
+    size?: TSize
     className?: string
 }
+
+export type TSize = 'large' | 'normal' | 'small'
+export type TVariant = 'primary' | 'accent' | 'primary-outlined' | 'accent-outlined'
