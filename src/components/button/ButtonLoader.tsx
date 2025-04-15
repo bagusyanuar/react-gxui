@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { TVariant, TSize } from './types'
-import { BUTTON_VARIANT, BUTTON_SIZE } from './const'
+import { BUTTON_VARIANT, BUTTON_SIZE } from './constant'
 
 
 export const StyledWrapper = styled.div<{ $variant: TVariant }>`

@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ITextfield, TSize } from './types'
-import { TEXTFIELD_SIZE, TEXTFIELD_ICON_SIZE, LABEL_SIZE } from './const'
+import { Label } from '../label'
+import { ITextfield } from './types'
+import { TSize } from '../types'
+import { TEXTFIELD_SIZE, TEXTFIELD_ICON_SIZE } from './constant'
 
 const StyledInputContainer = styled.div<{ $size: TSize }>`
     display: flex;
@@ -42,29 +44,35 @@ const StyledPrefixIcon = styled.div<{ $size: TSize }>`
     margin-right: ${({ $size }) => TEXTFIELD_ICON_SIZE[$size].spacer};
 `
 
-const StyledLabel = styled.label<{ $size: TSize }>`
-    margin-bottom: 0.25rem;
-    display: block;
-    color: var(--neutral-color);
-    font-size: ${({ $size }) => LABEL_SIZE[$size].fontSize};
+const StyledSuffixIcon = styled.div<{ $size: TSize }>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    color: inherit;
+    margin-left: ${({ $size }) => TEXTFIELD_ICON_SIZE[$size].spacer};
 `
 
 const Textfield: React.FC<ITextfield> = ({
     size = 'normal',
     prefixIcon: PrefixIcon,
+    suffixIcon: SuffixIcon,
     label,
+    isRequired,
     className,
     inputProps,
     labelProps
 }) => {
     return (
         <div className={className}>
-            {label && (<StyledLabel
-                $size={size}
-                {...labelProps}
-            >
-                {label}
-            </StyledLabel>)}
+            {label && (
+                <Label
+                    size={size}
+                    text={label}
+                    isRequired={isRequired}
+                    {...labelProps}
+                />
+            )}
             <StyledInputContainer
                 $size={size}
             >
@@ -80,6 +88,13 @@ const Textfield: React.FC<ITextfield> = ({
                     $size={size}
                     {...inputProps}
                 />
+                {SuffixIcon && (
+                    <StyledSuffixIcon
+                        $size={size}
+                    >
+                        <SuffixIcon size={TEXTFIELD_ICON_SIZE[size].iconSize} />
+                    </StyledSuffixIcon>
+                )}
             </StyledInputContainer>
         </div>
     )

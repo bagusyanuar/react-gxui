@@ -1,14 +1,12 @@
 import { ButtonVariant, ButtonSize } from './enum'
+import { HTMLBaseProps, TSize } from '../types'
 
-export interface IButton {
+export interface IButton extends HTMLBaseProps<HTMLButtonElement> {
     children?: React.ReactNode;
+    id?: string;
     loading?: boolean;
-    disabled?: boolean;
-    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
     variant?: TVariant
     size?: TSize
-    className?: string
 }
 
-export type TSize = 'large' | 'normal' | 'small'
 export type TVariant = 'primary' | 'accent' | 'primary-outlined' | 'accent-outlined'

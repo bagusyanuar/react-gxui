@@ -1,14 +1,15 @@
 import { ElementType } from 'react';
 import { IconBaseProps, IconType } from 'react-icons'
 import { TextfieldSize } from './enum'
+import { HTMLBaseProps, TSize } from '../types'
 
 export interface ITextfield {
     size?: TSize;
-    prefixIcon?: IconType;
     label?: string;
+    prefixIcon?: IconType;
+    suffixIcon?: IconType;
     className?: string;
-    inputProps?: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
-    labelProps?: React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>;
+    isRequired?: boolean;
+    inputProps?: HTMLBaseProps<HTMLInputElement>;
+    labelProps?: HTMLBaseProps<HTMLLabelElement>;
 }
-
-export type TSize = 'large' | 'normal' | 'small'

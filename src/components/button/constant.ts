@@ -1,13 +1,17 @@
 import { ButtonVariant, ButtonSize } from './enum'
-import {TVariant, TSize} from './types'
+import { TVariant } from './types'
+import { TSize } from '../types'
 
 type TButtonVariant = {
     background: string;
     color: string;
-    hoverBackground: string;
-    hoverColor: string;
     border: string;
+    hoverBackground: string;
+    hoverBorder: string;
+    hoverColor: string;
     disabledBackgroud: string;
+    disabledColor: string;
+    disabledBorder: string;
 }
 
 type TButtonSize = {
@@ -22,7 +26,10 @@ export const BUTTON_VARIANT: Record<TVariant, TButtonVariant> = {
         border: 'var(--primary-color)',
         hoverBackground: 'color-mix(in srgb, black 20%, var(--primary-color))',
         hoverColor: 'white',
-        disabledBackgroud: 'color-mix(in srgb, black 20%, var(--primary-color))'
+        hoverBorder: 'color-mix(in srgb, black 20%, var(--primary-color))',
+        disabledBackgroud: 'color-mix(in srgb, black 20%, var(--primary-color))',
+        disabledBorder: 'color-mix(in srgb, black 20%, var(--primary-color))',
+        disabledColor: 'white'
     },
     'accent': {
         background: 'var(--accent-color)',
@@ -30,7 +37,10 @@ export const BUTTON_VARIANT: Record<TVariant, TButtonVariant> = {
         border: 'var(--accent-color)',
         hoverBackground: 'color-mix(in srgb, black 20%, var(--accent-color))',
         hoverColor: 'white',
-        disabledBackgroud: 'color-mix(in srgb, black 20%, var(--accent-color))'
+        hoverBorder: 'color-mix(in srgb, black 20%, var(--accent-color))',
+        disabledBackgroud: 'color-mix(in srgb, black 20%, var(--accent-color))',
+        disabledBorder: 'color-mix(in srgb, black 20%, var(--accent-color))',
+        disabledColor: 'white'
     },
     'primary-outlined': {
         background: 'white',
@@ -38,7 +48,10 @@ export const BUTTON_VARIANT: Record<TVariant, TButtonVariant> = {
         border: 'var(--primary-color)',
         hoverBackground: 'var(--primary-color)',
         hoverColor: 'white',
-        disabledBackgroud: 'white'
+        hoverBorder: 'var(--primary-color)',
+        disabledBackgroud: 'white',
+        disabledBorder: 'color-mix(in srgb, white 65%, var(--primary-color))',
+        disabledColor: 'color-mix(in srgb, white 65%, var(--primary-color))'
     },
     'accent-outlined': {
         background: 'white',
@@ -46,7 +59,10 @@ export const BUTTON_VARIANT: Record<TVariant, TButtonVariant> = {
         border: 'var(--accent-color)',
         hoverBackground: 'var(--accent-color)',
         hoverColor: 'white',
+        hoverBorder: 'var(--accent-color)',
         disabledBackgroud: 'white',
+        disabledBorder: 'color-mix(in srgb, white 65%, var(--accent-color))',
+        disabledColor: 'color-mix(in srgb, white 65%, var(--accent-color))'
     },
 }
 

@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { IButton, TVariant, TSize } from './types'
-import { BUTTON_VARIANT, BUTTON_SIZE } from './const'
+import { IButton, TVariant } from './types'
+import { TSize } from '../types'
+import { BUTTON_VARIANT, BUTTON_SIZE } from './constant'
 import ButtonLoader from './ButtonLoader'
 
 const StyledButton = styled.button<{
@@ -28,26 +29,24 @@ const StyledButton = styled.button<{
 
     &:disabled {
         background-color: ${({ $variant }) => BUTTON_VARIANT[$variant].disabledBackgroud};
-        border-color: ${({ $variant }) => `color-mix(in srgb, white 65%, ${BUTTON_VARIANT[$variant].border})`};
-        color: ${({ $variant }) => `color-mix(in srgb, white 65%, ${BUTTON_VARIANT[$variant].color})`};
+        border-color: ${({ $variant }) => BUTTON_VARIANT[$variant].disabledBorder};
+        color: ${({ $variant }) => BUTTON_VARIANT[$variant].disabledColor};
         cursor: default;
     }
 `
 
 const Button: React.FC<IButton> = ({
     children,
+    id,
     loading,
     disabled,
-    onClick,
     variant = 'primary',
     size = 'normal',
-    className
 }) => {
     return (
         <StyledButton
-            onClick={onClick}
+            id={id}
             disabled={disabled || loading}
-            className={className}
             $variant={variant}
             $size={size}
         >
