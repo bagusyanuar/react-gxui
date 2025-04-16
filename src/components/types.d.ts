@@ -5,3 +5,8 @@ export type HTMLBaseProps<T> =
     T extends HTMLInputElement ? React.InputHTMLAttributes<T> :
     T extends HTMLTextAreaElement ? React.TextareaHTMLAttributes<T> :
     React.HTMLAttributes<T>;
+
+export type TValidation = {
+    error: boolean;
+    message?: string;
+}

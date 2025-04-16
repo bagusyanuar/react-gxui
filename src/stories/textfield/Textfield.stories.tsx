@@ -31,6 +31,10 @@ const meta = {
             defaultValue: 'Form Label',
             description: 'Label for input'
         },
+        containerProps: {
+            control: false,
+            description: 'React HTMLLabelElement'
+        },
         labelProps: {
             control: false,
             description: 'React HTMLLabelElement'
@@ -48,6 +52,10 @@ const meta = {
                 },
                 defaultValue: { summary: `'normal'` },
             },
+        },
+        validationMessage: {
+            control: 'text',
+            description: 'text from validation'
         },
         prefixIcon: {
             // options: Object.keys(iconOptions),
@@ -82,7 +90,9 @@ type Story = StoryObj<typeof Textfield>;
 export const Default: Story = {
     args: {},
     render: function Render(props) {
-        return <Textfield {...props} />
+        return <Textfield
+            {...props}
+        />
     }
 };
 
@@ -160,10 +170,22 @@ export const CustomLabelProps: Story = {
         label: 'Form Label'
     },
     render: function Render(props) {
-        return <Textfield labelProps={{ 
+        return <Textfield labelProps={{
             style: {
                 fontStyle: 'italic'
             }
-         }} {...props} />
+        }} {...props} />
+    }
+};
+
+export const WithErrorValidation: Story = {
+    args: {
+        label: 'Form Label',
+        isRequired: true,
+        isError: true,
+        validationMessage: 'This is an error text.'
+    },
+    render: function Render(props) {
+        return <Textfield {...props} />
     }
 };

@@ -3,6 +3,7 @@
     --primary-color: #555ab9;
     --accent-color: #b9555a;
     --neutral-color: #737373;
+    --danger-color: #ef4444;
 }
 
 @keyframes spin {

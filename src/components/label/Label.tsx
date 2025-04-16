@@ -13,7 +13,7 @@ const StyledLabel = styled.label<{ $size: TSize }>`
 
 const StyledRequired = styled.span`
     margin-left: 0.25rem;
-    color: #b91c1c;
+    color: var(--danger-color);
 `
 
 const Label: React.FC<ILabel> = ({
