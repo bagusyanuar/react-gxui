@@ -1,7 +1,9 @@
 "use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -15,6 +17,14 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.ts
@@ -25,9 +35,14 @@ __export(index_exports, {
 module.exports = __toCommonJS(index_exports);
 
 // src/components/typography/PageTitle.tsx
+var import_styled_components = __toESM(require("styled-components"));
 var import_jsx_runtime = require("react/jsx-runtime");
+var StyledDiv = import_styled_components.default.div`
+  background-color: rebeccapurple;
+  color: white;
+`;
 var PageTitle = () => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: "PageTitle" });
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StyledDiv, { className: "text-red-500", children: "PageTitle" });
 };
 var PageTitle_default = PageTitle;
 // Annotate the CommonJS export names for ESM import in node:

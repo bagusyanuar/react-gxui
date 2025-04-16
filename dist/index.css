@@ -1,0 +1,27 @@
+/* src/styles/global.css */
+:root {
+  --primary-color: #555ab9;
+  --accent-color: #b9555a;
+  --neutral-color: #737373;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+body {
+  font-family: "Arial", sans-serif;
+}
