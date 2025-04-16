@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Select } from '../../components/select';
+import { SelectMultiple } from '../../components/select';
 import { SelectOption } from '../../components/select/types'
 import { LuMail } from 'react-icons/lu';
 
-const meta: Meta<typeof Select> = {
-    title: 'Component/Forms/Select',
-    component: Select,
+const meta: Meta<typeof SelectMultiple> = {
+    title: 'Component/Forms/SelectMultiple',
+    component: SelectMultiple,
     parameters: {
         layout: 'centered',
         viewport: {
@@ -75,7 +75,7 @@ const meta: Meta<typeof Select> = {
 export default meta;
 
 
-type Story = StoryObj<typeof Select>;
+type Story = StoryObj<typeof SelectMultiple>;
 
 export const Default: Story = {
     args: {},
@@ -85,7 +85,7 @@ export const Default: Story = {
             { label: 'Option 2', value: 'option-2' },
             { label: 'Option 3', value: 'option-3' },
         ];
-        return <Select
+        return <SelectMultiple
             style={{
                 width: '200px'
             }}
@@ -106,7 +106,7 @@ export const WithLabel: Story = {
             { label: 'Option 2', value: 'option-2' },
             { label: 'Option 3', value: 'option-3' },
         ];
-        return <Select
+        return <SelectMultiple
             style={{
                 width: '500px'
             }}
@@ -128,7 +128,7 @@ export const WithRequiredLabel: Story = {
             { label: 'Option 2', value: 'option-2' },
             { label: 'Option 3', value: 'option-3' },
         ];
-        return <Select
+        return <SelectMultiple
             style={{
                 width: '500px'
             }}
@@ -149,7 +149,7 @@ export const WithIcon: Story = {
             { label: 'Option 2', value: 'option-2' },
             { label: 'Option 3', value: 'option-3' },
         ];
-        return <Select
+        return <SelectMultiple
             prefixIcon={LuMail}
             style={{
                 width: '500px'
@@ -173,7 +173,7 @@ export const WithErrorValidation: Story = {
             { label: 'Option 2', value: 'option-2' },
             { label: 'Option 3', value: 'option-3' },
         ];
-        return <Select
+        return <SelectMultiple
             style={{
                 width: '500px'
             }}

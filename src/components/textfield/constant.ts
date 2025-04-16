@@ -11,6 +11,11 @@ type TIconSize = {
     spacer: string;
 }
 
+type TTextfieldValidationSize = {
+    fontSize: string;
+    spacer: string;
+}
+
 export const TEXTFIELD_SIZE: Record<TSize, TTextfieldSize> = {
     large: {
         fontSize: '1.25rem',
@@ -41,5 +46,20 @@ export const TEXTFIELD_ICON_SIZE: Record<TSize, TIconSize> = {
     small: {
         iconSize: 12,
         spacer: '0.125rem',
+    },
+}
+
+export const TEXTFIELD_VALIDATION_SIZE: Record<TSize, TTextfieldValidationSize> = {
+    large: {
+        fontSize: '1rem',
+        spacer: '0.25rem'
+    },
+    normal: {
+        fontSize: '0.875rem',
+        spacer: '0.25rem'
+    },
+    small: {
+        fontSize: '0.75rem',
+        spacer: '0.125rem'
     },
 }

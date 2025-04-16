@@ -4,23 +4,23 @@ import ReactSelect from 'react-select'
 import { Label } from '../label'
 import { ISelect } from './types'
 import { TSize } from '../types'
-import { SELECT_SIZE, SELECT_ICON_SIZE } from './constant'
+import { SELECT_SIZE, SELECT_ICON_SIZE, SELECT_VALIDATION_SIZE } from './constant'
 
-const StyledSelectContainer = styled.div`
+const StyledSelectContainer = styled.div<{ $isError: boolean }>`
     width: 100%;
     display: flex;
     position: relative;
     align-items: center;
     border-width: 1px;
     border-style: solid;
-    border-color: color-mix(in srgb, white 20%, var(--neutral-color));
+    border-color: ${({ $isError }) => $isError ? 'var(--danger-color)' : 'color-mix(in srgb, white 20%, var(--neutral-color))'};
     transition: all .2s ease-in-out;
     border-radius: .25rem;
     color: color-mix(in srgb, white 20%, var(--neutral-color));
     font-size: 1rem;
 
     &:focus-within {
-        border-color: var(--neutral-color);
+        border-color: ${({ $isError }) => $isError ? 'var(--danger-color)' : 'var(--neutral-color)'};
         color: var(--neutral-color);
     }
 `
@@ -34,6 +34,13 @@ const StyledPrefixIcon = styled.div<{ $size: TSize }>`
   width: ${({ $size }) => SELECT_SIZE[$size].fontSize};
 `
 
+const StyledValidationText = styled.span<{ $size: TSize }>`
+    display: block;
+    font-size: ${({ $size }) => SELECT_VALIDATION_SIZE[$size].fontSize};
+    margin-top: ${({ $size }) => SELECT_VALIDATION_SIZE[$size].spacer};
+    color: var(--danger-color);
+`
+
 const Select: React.FC<ISelect> = ({
   options,
   size = 'normal',
@@ -44,7 +51,10 @@ const Select: React.FC<ISelect> = ({
   className,
   label,
   isRequired,
+  isError,
   labelProps,
+  containerProps,
+  validationMessage,
   ...props
 }) => {
   return (
@@ -60,7 +70,10 @@ const Select: React.FC<ISelect> = ({
           {...labelProps}
         />
       )}
-      <StyledSelectContainer>
+      <StyledSelectContainer
+        $isError={isError || false}
+        {...containerProps}
+      >
         {PrefixIcon && (
           <StyledPrefixIcon
             $size={size}
@@ -154,6 +167,11 @@ const Select: React.FC<ISelect> = ({
           }}
         />
       </StyledSelectContainer>
+      {isError && (
+        <StyledValidationText $size={size}>
+          {validationMessage}
+        </StyledValidationText>
+      )}
     </div>
   )
 }

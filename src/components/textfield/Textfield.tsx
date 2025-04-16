@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Label } from '../label'
 import { ITextfield } from './types'
 import { TSize } from '../types'
-import { TEXTFIELD_SIZE, TEXTFIELD_ICON_SIZE } from './constant'
+import { TEXTFIELD_SIZE, TEXTFIELD_ICON_SIZE, TEXTFIELD_VALIDATION_SIZE } from './constant'
 
 const StyledInputContainer = styled.div<{$size: TSize, $isError: boolean}>`
     display: flex;
@@ -53,10 +53,10 @@ const StyledSuffixIcon = styled.div<{ $size: TSize }>`
     margin-left: ${({ $size }) => TEXTFIELD_ICON_SIZE[$size].spacer};
 `
 
-const StyledValidationText = styled.span`
+const StyledValidationText = styled.span<{$size: TSize}>`
     display: block;
-    font-size: .875rem;
-    margin-top: 0.25rem;
+    font-size: ${({ $size }) => TEXTFIELD_VALIDATION_SIZE[$size].fontSize};
+    margin-top: ${({ $size }) => TEXTFIELD_VALIDATION_SIZE[$size].spacer};
     color: var(--danger-color);
 `
 
@@ -110,7 +110,7 @@ const Textfield: React.FC<ITextfield> = ({
                 )}
             </StyledInputContainer>
             {isError && (
-                <StyledValidationText>
+                <StyledValidationText $size={size}>
                     {validationMessage}
                 </StyledValidationText>
             )}
