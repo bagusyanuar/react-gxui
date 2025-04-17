@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { TTD, TAlign } from '../types'
 import { ROW_ALIGN } from '../constant'
-import { TAlign, TTH } from '../types'
 
-const StyledTH = styled.th<{ $width: string }>`
+const StyledTD = styled.td`
     font-size: 0.725rem;
-    font-weight: 600;
-    width: ${({ $width }) => $width};
     color: var(--neutral-color);
 `
 
@@ -14,24 +12,20 @@ const StyledContainer = styled.div<{ $align: TAlign }>`
     display: flex;
     align-items: center;
     justify-content: ${({ $align }) => ROW_ALIGN[$align].align};
-    padding: 0.5rem 0.25rem;
-    text-transform: uppercase;
+    padding: 1rem 0.25rem;
 `
 
-const TH: React.FC<TTH> = ({
-    title,
+const TD: React.FC<TTD> = ({
+    children,
     align = 'center',
-    width = 'auto'
 }) => {
     return (
-        <StyledTH
-            $width={width}
-        >
+        <StyledTD>
             <StyledContainer $align={align}>
-                <span>{title}</span>
+                {children}
             </StyledContainer>
-        </StyledTH>
+        </StyledTD>
     )
 }
 
-export default TH
+export default TD

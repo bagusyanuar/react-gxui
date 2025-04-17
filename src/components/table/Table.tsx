@@ -2,28 +2,79 @@ import React from 'react'
 import styled from 'styled-components'
 import { ITable } from './types'
 import TH from './components/TH'
+import TD from './components/TD'
+import Pagination from './components/Pagination'
+
+const StyledContainer = styled.div`
+    width: 100%;
+`
+
+const StyledTableContainer = styled.div`
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: .5rem;
+`
 
 const StyledTable = styled.table`
-    width: 800px;
+    width: 100%;
+    background: transparent;
+    border-collapse:  collapse;
+    table-layout: fixed;
+`
+
+const StyledThead = styled.thead`
+    width: 100%;
+    border-bottom: 1px solid color-mix(in srgb, white 20%, var(--neutral-color));
+`
+
+const StyledRow = styled.tr`
+    border-bottom: 1px solid color-mix(in srgb, white 20%, var(--neutral-color));
 `
 
 const Table = <T,>({
     columns,
+    data,
+    className,
 }: ITable<T>) => {
     return (
-        <StyledTable>
-            <thead>
-                <tr>
-                    {columns.map((column, index) => {
-                        return <TH
-                            key={index}
-                            title={column.title}
-                            align={column.align}
-                        />
-                    })}
-                </tr>
-            </thead>
-        </StyledTable>
+        <StyledContainer>
+            <StyledTableContainer className={className}>
+                <StyledTable>
+                    <StyledThead>
+                        <tr>
+                            {columns.map((column, index) => {
+                                return <TH
+                                    key={index}
+                                    title={column.title}
+                                    align={column.align}
+                                    width={column.width}
+                                />
+                            })}
+                        </tr>
+                    </StyledThead>
+                    <tbody>
+                        {
+                            data.map((row, rowIndex) => {
+                                return (
+                                    <StyledRow key={rowIndex}>
+                                        {columns.map((column, colIndex) => {
+                                            return <TD
+                                                key={colIndex}
+                                                align={column.align}
+                                            >
+                                                {column.selector ? column.selector(row, rowIndex) : <></>}
+                                            </TD>
+                                        })}
+                                    </StyledRow>
+                                );
+                            })
+                        }
+
+                    </tbody>
+                </StyledTable>
+            </StyledTableContainer>
+            <Pagination />
+        </StyledContainer>
     )
 }
 

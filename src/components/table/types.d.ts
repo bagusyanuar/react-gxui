@@ -1,15 +1,25 @@
 export interface ITable<T> {
-    columns: IColums<T>[];
+    columns: TColums<T>[];
+    data: T[];
+    className?: string;
 }
 
-export interface IColums<T> {
+export type TColums<T> =  {
     title: string;
     selector?: (row: T, index: number) => any;
     align?: TAlign;
+    width?: string;
 }
 
-export interface ITH {
+export type TTH = {
     title: string;
     align?: TAlign;
+    width?: string;
 }
+
+export type TTD = {
+    children: React.ReactNode;
+    align?: TAlign
+}
+
 export type TAlign = 'left' | 'center' | 'right';

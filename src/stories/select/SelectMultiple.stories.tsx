@@ -50,26 +50,7 @@ const meta: Meta<typeof SelectMultiple> = {
             description: 'text from validation'
         },
     },
-    args: {},
-    // decorators: [
-    //     (Story) => (
-    //         <>
-    //             <style>
-    //                 {`
-    //                     .docs-story {
-    //                     height: 400px;
-    //                     margin: 0 auto;
-    //                     }
-
-    //                     .docs-story > div {
-    //                         height: 100% !important;
-    //                     }
-    //                 `}
-    //             </style>
-    //             <Story />
-    //         </>
-    //     )
-    // ]
+    args: {}
 };
 
 export default meta;

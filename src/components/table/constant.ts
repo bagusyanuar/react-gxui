@@ -4,14 +4,14 @@ type TThAlign = {
     align: string;
 }
 
-export const TH_ALIGN: Record<TAlign, TThAlign> = {
+export const ROW_ALIGN: Record<TAlign, TThAlign> = {
     left: {
-        align: 'justify-start',
+        align: 'start',
     },
     center: {
-        align: 'justify-center',
+        align: 'center',
     },
     right: {
-        align: 'justify-end',
+        align: 'end',
     }
 }
