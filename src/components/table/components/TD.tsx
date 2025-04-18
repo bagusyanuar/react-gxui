@@ -5,7 +5,7 @@ import { ROW_ALIGN } from '../constant'
 
 const StyledTD = styled.td`
     font-size: 0.725rem;
-    color: var(--neutral-color);
+    color: color-mix(in srgb, black 20%, var(--neutral-color));
 `
 
 const StyledContainer = styled.div<{ $align: TAlign }>`

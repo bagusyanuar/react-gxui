@@ -7,7 +7,7 @@ const StyledTH = styled.th<{ $width: string }>`
     font-size: 0.725rem;
     font-weight: 600;
     width: ${({ $width }) => $width};
-    color: var(--neutral-color);
+    color: color-mix(in srgb, black 20%, var(--neutral-color));
 `
 
 const StyledContainer = styled.div<{ $align: TAlign }>`

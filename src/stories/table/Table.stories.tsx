@@ -38,7 +38,7 @@ type TProfile = {
 
 const data: TUser[] = [
     { email: 'john.doe@gmail.com', username: 'john doe', profile: { name: 'John Doe', address: 'example address' } },
-    { email: 'margareth.susane@gmail.com and more longer text to see width', username: 'margareth', profile: { name: 'Susan Margareth', address: 'example address' } }
+    { email: 'margareth.susane@gmail.com', username: 'margareth', profile: { name: 'Susan Margareth', address: 'example address' } }
 ]
 
 export const Default: Story = {
@@ -60,6 +60,9 @@ export const Default: Story = {
         return <Table
             columns={columns}
             data={data}
+            totalRows={data.length}
+            onPerPageChange={(perPage) => console.log(perPage)} 
+            onPageChange={page => console.log(page)}
         />
     }
 };

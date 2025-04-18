@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ITable } from './types'
 import TH from './components/TH'
@@ -24,18 +24,24 @@ const StyledTable = styled.table`
 
 const StyledThead = styled.thead`
     width: 100%;
-    border-bottom: 1px solid color-mix(in srgb, white 20%, var(--neutral-color));
+    border-bottom: 1px solid color-mix(in srgb, white 50%, var(--neutral-color));
 `
 
 const StyledRow = styled.tr`
-    border-bottom: 1px solid color-mix(in srgb, white 20%, var(--neutral-color));
+    border-bottom: 1px solid color-mix(in srgb, white 50%, var(--neutral-color));
 `
 
 const Table = <T,>({
     columns,
     data,
     className,
+    pageLength = [10, 25, 50],
+    onPerPageChange,
+    onPageChange,
+    totalRows
 }: ITable<T>) => {
+    const [selectedPage, setSelectedPage] = useState<number>(1);
+
     return (
         <StyledContainer>
             <StyledTableContainer className={className}>
@@ -73,7 +79,17 @@ const Table = <T,>({
                     </tbody>
                 </StyledTable>
             </StyledTableContainer>
-            <Pagination />
+            <Pagination
+                pageLength={pageLength}
+                selectedPage={selectedPage}
+                pages={[1, 2, 3, 4, 5]}
+                totalRows={totalRows || 0}
+                onPerPageChange={perPage => { onPerPageChange?.(perPage)}}
+                onPageChange={page => {
+                    setSelectedPage(page);
+                    onPageChange?.(page);
+                }}
+            />
         </StyledContainer>
     )
 }
