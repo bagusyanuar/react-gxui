@@ -21,17 +21,30 @@ const StyledPagePaginator = styled.div`
     gap: .5rem;
 `
 
+const StyledSelect = styled.select`
+    font-size: .75rem;
+    border: 1px solid var(--neutral-color);
+    border-radius: 0.25rem;
+    color: var(--neutral-color);
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+
+    &:focus {
+        outline: none;
+    }
+`
+
 const Pagination = () => {
     return (
         <StyledContainer>
             <StyledPageInfo>Total Rows : 100</StyledPageInfo>
             <StyledPagePaginator>
                 <span>Rows Per Page : </span>
-                <select>
+                <StyledSelect>
                     <option value={5}>5</option>
                     <option value={10}>10</option>
                     <option value={25}>25</option>
-                </select>
+                </StyledSelect>
             </StyledPagePaginator>
         </StyledContainer>
     )
