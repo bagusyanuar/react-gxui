@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { ITable } from './types'
 import TH from './components/TH'
 import TD from './components/TD'
 import Pagination from './components/Pagination'
+import { useTable } from './hooks'
 
 const StyledContainer = styled.div`
     width: 100%;
@@ -34,14 +35,16 @@ const StyledRow = styled.tr`
 const Table = <T,>({
     columns,
     data,
+    useServer,
     className,
-    pageLength = [10, 25, 50],
-    onPerPageChange,
-    onPageChange,
-    totalRows
+    pageLength = [5, 25, 50],
 }: ITable<T>) => {
-    const [selectedPage, setSelectedPage] = useState<number>(1);
-
+    const hook = useTable({
+        data,
+        pageLength,
+        useServer: useServer
+    });
+    console.log('RENDER TABLE');
     return (
         <StyledContainer>
             <StyledTableContainer className={className}>
@@ -60,7 +63,7 @@ const Table = <T,>({
                     </StyledThead>
                     <tbody>
                         {
-                            data.map((row, rowIndex) => {
+                            (useServer ? data : hook.shownData).map((row, rowIndex) => {
                                 return (
                                     <StyledRow key={rowIndex}>
                                         {columns.map((column, colIndex) => {
@@ -81,13 +84,13 @@ const Table = <T,>({
             </StyledTableContainer>
             <Pagination
                 pageLength={pageLength}
-                selectedPage={selectedPage}
-                pages={[1, 2, 3, 4, 5]}
-                totalRows={totalRows || 0}
-                onPerPageChange={perPage => { onPerPageChange?.(perPage)}}
+                selectedPage={useServer ? useServer.page : hook.selectedPage}
+                pages={hook.pages}
+                totalRows={useServer ? useServer.totalRows : hook.totalRows}
+                onPerPageChange={perPage => { hook.setPageSize(perPage) }}
                 onPageChange={page => {
-                    setSelectedPage(page);
-                    onPageChange?.(page);
+                    hook.setSelectedPage(page);
+                    // onPageChange?.(page);
                 }}
             />
         </StyledContainer>

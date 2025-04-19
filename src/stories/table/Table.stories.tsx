@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Table } from '../../components/table'
 import { TColums } from '../../components/table/types'
+import { TUser, data } from './dummy'
 
 
 const meta = {
-    title: 'Component/TABLE/Table',
+    title: 'Component/Table/Table',
     component: Table,
     parameters: {
         layout: 'centered',
@@ -24,28 +25,12 @@ export default meta;
 
 type Story = StoryObj<typeof Table>;
 
-type TUser = {
-    email: string;
-    username: string;
-    profile: TProfile
-}
 
-type TProfile = {
-    name: string;
-    address: string;
-}
-
-
-const data: TUser[] = [
-    { email: 'john.doe@gmail.com', username: 'john doe', profile: { name: 'John Doe', address: 'example address' } },
-    { email: 'margareth.susane@gmail.com', username: 'margareth', profile: { name: 'Susan Margareth', address: 'example address' } }
-]
-
-export const Default: Story = {
+export const ClientTable: Story = {
     args: {},
     decorators: [
         (Story) => (
-            <div style={{ width: '800px', margin: '0 auto' }}>
+            <div style={{ width: '750px', margin: '0 auto' }}>
                 <Story />
             </div>
         )
@@ -53,16 +38,14 @@ export const Default: Story = {
     render: function Render() {
 
         const columns: TColums<TUser>[] = [
-            { title: 'Email', selector: (row) => row.email, width: '15rem' },
-            { title: 'Username', selector: row => row.username, width: '15rem' },
-            { title: 'Address', selector: row => row.profile.address, align: 'left', width: '700px' },
+            { title: 'First Name', selector: (row) => row.firstName },
+            { title: 'Last Name', selector: row => row.lastName },
+            { title: 'Phone', selector: row => row.phone },
+            { title: 'Address', selector: row => row.address, align: 'left' },
         ];
         return <Table
             columns={columns}
             data={data}
-            totalRows={data.length}
-            onPerPageChange={(perPage) => console.log(perPage)} 
-            onPageChange={page => console.log(page)}
         />
     }
 };

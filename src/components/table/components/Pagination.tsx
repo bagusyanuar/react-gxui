@@ -128,7 +128,7 @@ const Pagination: React.FC<TPagination> = ({
                         </StyledButtonPageNavigator>
                     })}
                     <StyledButtonNavigator
-                        disabled={selectedPage === pages[pages.length - 1]}
+                        disabled={selectedPage === pages[pages.length - 1] || pages.length <= 1}
                         onClick={(e) => {
                             const nextPage = selectedPage + 1;
                             onPageChange(nextPage);

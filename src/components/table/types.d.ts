@@ -1,11 +1,15 @@
 export interface ITable<T> {
     columns: TColums<T>[];
     data: T[];
+    useServer?: TServer;
     className?: string;
     pageLength?: number[];
-    totalRows?: number;
-    onPerPageChange?: (perPage: number) => void;
-    onPageChange?: (page: number) => void;
+}
+
+export type TServer = {
+    totalRows: number;
+    page: number;
+    perPage: number;
 }
 
 export type TColums<T> =  {
