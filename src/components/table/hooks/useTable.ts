@@ -1,87 +1,133 @@
-import { useState, useEffect, useCallback } from 'react'
-import { TServer } from '../types'
-import { Paginator } from '../libs'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { TServer, TColums } from '../types'
+import { Paginator, Search } from '../libs'
 
 type THook<T> = {
+    columns: TColums<T>[];
     data: T[];
     pageLength: number[];
     useServer?: TServer;
 }
+
+type TMetaPagination = {
+    page: number;
+    pages: number[];
+    perPage: number;
+    totalRows: number;
+    totalPages: number;
+}
 const useTable = <T,>({
+    columns,
     data,
     pageLength,
     useServer
 }: THook<T>) => {
-    const [selectedPage, setSelectedPage] = useState<number>(0);
-    const [totalRows, setTotalRows] = useState<number>(0);
-    const [totalPages, setTotalPages] = useState<number>(0);
-    const [pages, setPages] = useState<number[]>([]);
-    const [pageSize, setPageSize] = useState<number>(pageLength[0]);
+    const [clientData, setClientData] = useState<T[]>([]);
     const [shownData, setShownData] = useState<T[]>([]);
+    const [meta, setMeta] = useState<TMetaPagination>({
+        page: 0,
+        pages: [],
+        perPage: pageLength[0],
+        totalRows: 0,
+        totalPages: 0
+    })
     const [search, setSearch] = useState<string>('');
+    const [searchFields, setSearchFileds] = useState<(keyof T)[]>([]);
+    const isFirstSearchRender = useRef(true);
 
-    useEffect(() => {
-        if (useServer) {
-            // paginator.getPages()
-            // const pages = Array.from({ length: useServer.totalPages }, (_, i) => i + 1);
-            // setPages(pages);
-            return
-        };
+    const initialClientEvent = useCallback(() => {
+        console.log('initial table client...');
+        setSearch('')
+        setClientData(data);
         const totalRows = data.length;
-        const paginate = Paginator.paginate(totalRows, pageSize);
-        const totalPages = paginate.totalPages
-        const pages = paginate.pages
-        const shownData = data.slice(0, pageSize);
-        setSelectedPage(1);
-        setTotalRows(totalRows);
-        setTotalPages(totalPages);
-        setPages(pages);
-        setShownData(shownData);
-        return () => { setShownData([]) }
-    }, [data, pageSize, useServer])
+        const paginate = Paginator.paginate(totalRows, meta.perPage);
+        const totalPages = paginate.totalPages;
+        const pages = paginate.pages;
+        setMeta(prev => ({
+            ...prev,
+            page: 1,
+            totalRows: totalRows,
+            totalPages: totalPages,
+            pages: pages
+        }));
+        setShownData(data.slice(0, meta.perPage));
+        setSearchFileds(Search.getSearchableFieldsFromColumns(columns));
+    }, [])
 
     useEffect(() => {
-        if (useServer) return;
-        const startIndex = (selectedPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize
-        const shownData = data.slice(startIndex, endIndex);
-        setShownData(shownData);
+        initialClientEvent();
         return () => { }
-    }, [selectedPage, useServer])
+    }, [initialClientEvent])
 
-    const handleSearch = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>, fields: string[]) => {
-            const search = e.target.value.toLowerCase();
-            setSearch(search);
-            const filteredData = <T, K extends keyof T>(
-                data: T[],
-                search: string,
-                fields: K[]
-            ): T[] => {
-                return data.filter((item) => {
-                    fields.some(field => {
-                        const value = item[field];
-                        return value?.toString().toLowerCase().includes(search)
-                    });
-                })
-            };
+    useEffect(() => {
+        console.log('per page....');
+        
+        const totalRows = data.length;
+        const paginate = Paginator.paginate(totalRows, meta.perPage);
+        const totalPages = paginate.totalPages;
+        const pages = paginate.pages;
+        setMeta(prev => ({
+            ...prev,
+            page: 1,
+            totalPages: totalPages,
+            pages: pages
+        }));
+        setShownData(clientData.slice(0, meta.perPage));
+        return () => { }
+    }, [meta.perPage])
 
-            //console log filtered data here,
-        },
-        [search],
-    )
+    useEffect(() => {
+        const startIndex = (meta.page - 1) * meta.perPage;
+        const endIndex = startIndex + meta.perPage;
+        setShownData(clientData.slice(startIndex, endIndex));
+        return () => { }
+    }, [meta.page])
 
+    useEffect(() => {
+        if (isFirstSearchRender.current) {
+            isFirstSearchRender.current = false;
+            return;
+        }
+        const timeout = setTimeout(() => {
+            console.log('search data...');
+            const filteredData = Search.getFilteredData(search, data, searchFields);
+            setClientData(filteredData);
+            const totalRows = filteredData.length;
+            const paginate = Paginator.paginate(totalRows, meta.perPage);
+            const totalPages = paginate.totalPages
+            const pages = paginate.pages
+            const shownData = filteredData.slice(0, meta.perPage);
+            setMeta(prev => ({
+                ...prev,
+                page: 1,
+                totalRows: totalRows,
+                totalPages: totalPages,
+                pages: pages
+            }));
+            setShownData(shownData);
+        }, 500);
+        return () => { clearTimeout(timeout) }
+    }, [search])
+
+    const handlePerPageChange = (perPage: number) => {
+        setMeta(prev => ({ ...prev, perPage: perPage }));
+    }
+
+    const handlePageChange = (page: number) => {
+        setMeta(prev => ({ ...prev, page: page }));
+    }
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const searchValue = e.target.value;
+        setSearch(searchValue);
+    };
 
     return {
-        selectedPage,
-        setSelectedPage,
-        totalPages,
-        totalRows,
+        meta,
+        handlePerPageChange,
+        handlePageChange,
         search,
-        pageSize,
-        pages,
         shownData,
-        setPageSize,
         handleSearch
     }
 }

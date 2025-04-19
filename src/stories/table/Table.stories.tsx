@@ -39,9 +39,9 @@ export const ClientTable: Story = {
 
         const columns: TColums<TUser>[] = [
             { title: 'First Name', selector: (row) => row.firstName },
-            { title: 'Last Name', selector: row => row.lastName },
-            { title: 'Phone', selector: row => row.phone },
-            { title: 'Address', selector: row => row.address, align: 'left' },
+            { title: 'Last Name', selector: row => row.lastName, searchKey: 'lastName' },
+            { title: 'Phone', selector: row => row.phone, searchKey: 'phone' },
+            { title: 'Address', selector: row => row.address, align: 'left', },
         ];
         return <Table
             columns={columns}

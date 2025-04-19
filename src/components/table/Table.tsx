@@ -77,9 +77,10 @@ const Table = <T,>({
     data,
     useServer,
     className,
-    pageLength = [5, 25, 50],
+    pageLength = [1, 3, 5],
 }: ITable<T>) => {
     const hook = useTable({
+        columns,
         data,
         pageLength,
         useServer: useServer
@@ -92,15 +93,15 @@ const Table = <T,>({
                     <StyledExtensionSearch
                         placeholder='search...'
                         value={hook.search}
-                        // onChange={hook.handleSearch}
+                        onChange={hook.handleSearch}
                     />
                     <StyledSearchIcon xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        stroke-width="2">
-                        <path stroke-linecap="round"
-                            stroke-linejoin="round"
+                        strokeWidth="2">
+                        <path strokeLinecap="round"
+                            strokeLinejoin="round"
                             d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.75 3.75a7.5 7.5 0 0012.9 12.9z" />
                     </StyledSearchIcon>
                 </StyledSearchContainer>
@@ -142,12 +143,15 @@ const Table = <T,>({
             </StyledTableContainer>
             <Pagination
                 pageLength={pageLength}
-                selectedPage={useServer ? useServer.page : hook.selectedPage}
-                pages={hook.pages}
-                totalRows={useServer ? useServer.totalRows : hook.totalRows}
-                onPerPageChange={perPage => { hook.setPageSize(perPage) }}
+                selectedPage={useServer ? useServer.page : hook.meta.page}
+                pages={hook.meta.pages}
+                totalRows={useServer ? useServer.totalRows : hook.meta.totalRows}
+                onPerPageChange={perPage => {
+                    hook.handlePerPageChange(perPage);
+                }}
                 onPageChange={page => {
-                    hook.setSelectedPage(page);
+                    hook.handlePageChange(page);
+                    // hook.setSelectedPage(page);
                     // onPageChange?.(page);
                 }}
             />
