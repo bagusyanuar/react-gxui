@@ -18,6 +18,7 @@ const useTable = <T,>({
     const [pages, setPages] = useState<number[]>([]);
     const [pageSize, setPageSize] = useState<number>(pageLength[0]);
     const [shownData, setShownData] = useState<T[]>([]);
+    const [search, setSearch] = useState<string>('');
 
     useEffect(() => {
         if (useServer) {
@@ -48,15 +49,40 @@ const useTable = <T,>({
         return () => { }
     }, [selectedPage, useServer])
 
+    const handleSearch = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>, fields: string[]) => {
+            const search = e.target.value.toLowerCase();
+            setSearch(search);
+            const filteredData = <T, K extends keyof T>(
+                data: T[],
+                search: string,
+                fields: K[]
+            ): T[] => {
+                return data.filter((item) => {
+                    fields.some(field => {
+                        const value = item[field];
+                        return value?.toString().toLowerCase().includes(search)
+                    });
+                })
+            };
+
+            //console log filtered data here,
+        },
+        [search],
+    )
+
+
     return {
         selectedPage,
         setSelectedPage,
         totalPages,
         totalRows,
+        search,
         pageSize,
         pages,
         shownData,
-        setPageSize
+        setPageSize,
+        handleSearch
     }
 }
 

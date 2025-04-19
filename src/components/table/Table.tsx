@@ -32,6 +32,46 @@ const StyledRow = styled.tr`
     border-bottom: 1px solid color-mix(in srgb, white 50%, var(--neutral-color));
 `
 
+const StyledExtensionContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-bottom: 0.5rem;
+`
+
+const StyledSearchContainer = styled.div`
+    position: relative;
+`
+
+const StyledSearchIcon = styled.svg`
+    position: absolute;
+    left: .75rem;
+    top: 35%;
+    color: var(--neutral-color);
+    width: 14px;
+    height: 14px;
+`
+
+const StyledExtensionSearch = styled.input`
+    outline: none;
+    border-width: 1px;
+    border-style: solid;
+    border-color: color-mix(in srgb, white 20%, var(--neutral-color));
+    transition: all .2s ease-in-out;
+    border-radius: .25rem;
+    color: color-mix(in srgb, white 20%, var(--neutral-color));
+    font: .75rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: 2rem;
+    padding-right: .5rem;
+
+    &:focus {
+        color: var(--neutral-color);
+        border-color: var(--neutral-color);
+    }
+`
+
 const Table = <T,>({
     columns,
     data,
@@ -47,6 +87,24 @@ const Table = <T,>({
     console.log('RENDER TABLE');
     return (
         <StyledContainer>
+            <StyledExtensionContainer>
+                <StyledSearchContainer>
+                    <StyledExtensionSearch
+                        placeholder='search...'
+                        value={hook.search}
+                        // onChange={hook.handleSearch}
+                    />
+                    <StyledSearchIcon xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.75 3.75a7.5 7.5 0 0012.9 12.9z" />
+                    </StyledSearchIcon>
+                </StyledSearchContainer>
+            </StyledExtensionContainer>
             <StyledTableContainer className={className}>
                 <StyledTable>
                     <StyledThead>
