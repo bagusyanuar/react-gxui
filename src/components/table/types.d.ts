@@ -1,9 +1,13 @@
 export interface ITable<T> {
     columns: TColums<T>[];
     data: T[];
-    useServer?: TServer;
-    className?: string;
     pageLength?: number[];
+    title?: string;
+    useServer?: TServer;
+    usePagination?: boolean;
+    useSearch?: boolean;
+    loading?: boolean;
+    className?: string;
 }
 
 export type TServer = {
@@ -32,10 +36,12 @@ export type TTD = {
 }
 
 export type TPagination = {
+    usePagination: boolean;
     pageLength: number[];
     selectedPage: number;
     pages: number[];
     totalRows: number;
+    loading?: boolean;
     onPerPageChange: (perPage: number) => void;
     onPageChange: (page: number) => void;
 }

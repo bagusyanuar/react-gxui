@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { TVariant, TSize } from './types'
+import { TVariant } from './types'
+import { TSize } from '../types'
 import { BUTTON_VARIANT, BUTTON_SIZE } from './constant'
 
 

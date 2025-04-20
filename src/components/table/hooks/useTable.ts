@@ -5,6 +5,7 @@ import { Paginator, Search } from '../libs'
 type THook<T> = {
     columns: TColums<T>[];
     data: T[];
+    usePagination: boolean;
     pageLength: number[];
     useServer?: TServer;
 }
@@ -19,6 +20,7 @@ type TMetaPagination = {
 const useTable = <T,>({
     columns,
     data,
+    usePagination,
     pageLength,
     useServer
 }: THook<T>) => {
@@ -39,20 +41,29 @@ const useTable = <T,>({
 
     const initialClientEvent = useCallback(() => {
         console.log('initial table client...');
+        console.log('pagination : ' + usePagination);
         setSearch('')
         setClientData(data);
         const totalRows = data.length;
-        const paginate = Paginator.paginate(totalRows, meta.perPage);
-        const totalPages = paginate.totalPages;
-        const pages = paginate.pages;
-        setMeta(prev => ({
-            ...prev,
-            page: 1,
-            totalRows: totalRows,
-            totalPages: totalPages,
-            pages: pages
-        }));
-        setShownData(data.slice(0, meta.perPage));
+        if (usePagination) {
+            const paginate = Paginator.paginate(totalRows, meta.perPage);
+            const totalPages = paginate.totalPages;
+            const pages = Paginator.getShownPages(totalRows, meta.perPage, 1);
+            setMeta(prev => ({
+                ...prev,
+                page: 1,
+                totalRows: totalRows,
+                totalPages: totalPages,
+                pages: pages
+            }));
+            setShownData(data.slice(0, meta.perPage));
+        } else {
+            setMeta(prev => ({
+                ...prev,
+                totalRows: totalRows,
+            }));
+            setShownData(data);
+        }
         setSearchFileds(Search.getSearchableFieldsFromColumns(columns));
     }, [])
 
@@ -69,11 +80,11 @@ const useTable = <T,>({
             return;
         }
         console.log('per page....');
-        
+
         const totalRows = clientData.length;
         const paginate = Paginator.paginate(totalRows, meta.perPage);
         const totalPages = paginate.totalPages;
-        const pages = paginate.pages;
+        const pages = Paginator.getShownPages(totalRows, meta.perPage, 1);
         setMeta(prev => ({
             ...prev,
             page: 1,
@@ -93,6 +104,8 @@ const useTable = <T,>({
         console.log('page....');
         const startIndex = (meta.page - 1) * meta.perPage;
         const endIndex = startIndex + meta.perPage;
+        const pages = Paginator.getShownPages(meta.totalRows, meta.perPage, meta.page);
+        setMeta(prev => ({ ...prev, pages: pages }));
         setShownData(clientData.slice(startIndex, endIndex));
         return () => { }
     }, [meta.page])
@@ -108,18 +121,26 @@ const useTable = <T,>({
             const filteredData = Search.getFilteredData(search, data, searchFields);
             setClientData(filteredData);
             const totalRows = filteredData.length;
-            const paginate = Paginator.paginate(totalRows, meta.perPage);
-            const totalPages = paginate.totalPages
-            const pages = paginate.pages
-            const shownData = filteredData.slice(0, meta.perPage);
-            setMeta(prev => ({
-                ...prev,
-                page: 1,
-                totalRows: totalRows,
-                totalPages: totalPages,
-                pages: pages
-            }));
-            setShownData(shownData);
+            if (usePagination) {
+                const paginate = Paginator.paginate(totalRows, meta.perPage);
+                const totalPages = paginate.totalPages
+                const pages = Paginator.getShownPages(totalRows, meta.perPage, 1);
+                const shownData = filteredData.slice(0, meta.perPage);
+                setMeta(prev => ({
+                    ...prev,
+                    page: 1,
+                    totalRows: totalRows,
+                    totalPages: totalPages,
+                    pages: pages
+                }));
+                setShownData(shownData);
+            } else {
+                setMeta(prev => ({
+                    ...prev,
+                    totalRows: totalRows,
+                }));
+                setShownData(filteredData);
+            }
         }, 500);
         return () => { clearTimeout(timeout) }
     }, [search])

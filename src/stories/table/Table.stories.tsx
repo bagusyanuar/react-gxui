@@ -5,7 +5,7 @@ import { TUser, data } from './dummy'
 
 
 const meta = {
-    title: 'Component/Table/Table',
+    title: 'Component/Table/Client Table',
     component: Table,
     parameters: {
         layout: 'centered',
@@ -26,7 +26,7 @@ export default meta;
 type Story = StoryObj<typeof Table>;
 
 
-export const ClientTable: Story = {
+export const Default: Story = {
     args: {},
     decorators: [
         (Story) => (
@@ -45,13 +45,9 @@ export const ClientTable: Story = {
             { title: 'Education', selector: row => row.education.field, searchKey: 'education.field', },
         ];
         return <Table
+            title='Table Customer'
             columns={columns}
             data={data}
-            useServer={{
-                page: 0,
-                perPage: 10,
-                totalRows: 0,
-            }}
         />
     }
 };

@@ -81,71 +81,79 @@ const StyledButtonPageNavigator = styled(StyledButtonNavigator) <{ $active: bool
 `
 
 const Pagination: React.FC<TPagination> = ({
+    usePagination,
     pageLength,
     pages,
     totalRows,
     selectedPage,
     onPerPageChange,
     onPageChange,
+    loading
 }) => {
     return (
         <StyledContainer>
             <StyledPageInfo>Total Rows : {totalRows}</StyledPageInfo>
-            <StyledPagePaginator>
-                <span>Rows Per Page : </span>
-                <StyledSelect
-                    onChange={(e) => { onPerPageChange(parseInt(e.currentTarget.value)) }}
-                >
-                    {pageLength.map((value, key) => {
-                        return <option key={key} value={value}>{value}</option>
-                    })}
-                </StyledSelect>
-                <StyledNavigator>
-                    <StyledButtonNavigator
-                        disabled={selectedPage <= 1}
-                        onClick={(e) => {
-                            const prevPage = selectedPage - 1;
-                            onPageChange(prevPage);
-                        }}
+            {usePagination ?
+                <StyledPagePaginator>
+                    <span>Rows Per Page : </span>
+                    <StyledSelect
+                        onChange={(e) => { onPerPageChange(parseInt(e.currentTarget.value)) }}
+                        disabled={loading}
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="4"
+                        {pageLength.map((value, key) => {
+                            return <option key={key} value={value}>{value}</option>
+                        })}
+                    </StyledSelect>
+                    <StyledNavigator>
+                        <StyledButtonNavigator
+                            disabled={selectedPage <= 1 || loading}
+                            onClick={(e) => {
+                                const prevPage = selectedPage - 1;
+                                onPageChange(prevPage);
+                            }}
                         >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </StyledButtonNavigator>
-                    {pages.map((page, key) => {
-                        return <StyledButtonPageNavigator
-                            key={key}
-                            $active={page === selectedPage}
-                            onClick={() => { onPageChange(page) }}
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </StyledButtonNavigator>
+                        {pages.map((page, key) => {
+                            return <StyledButtonPageNavigator
+                                key={key}
+                                $active={page === selectedPage}
+                                onClick={() => { onPageChange(page) }}
+                                disabled={loading}
+                            >
+                                <span>{page}</span>
+                            </StyledButtonPageNavigator>
+                        })}
+                        <StyledButtonNavigator
+                            disabled={selectedPage === pages[pages.length - 1] || pages.length <= 1 || loading}
+                            onClick={(e) => {
+                                const nextPage = selectedPage + 1;
+                                onPageChange(nextPage);
+                            }}
                         >
-                            <span>{page}</span>
-                        </StyledButtonPageNavigator>
-                    })}
-                    <StyledButtonNavigator
-                        disabled={selectedPage === pages[pages.length - 1] || pages.length <= 1}
-                        onClick={(e) => {
-                            const nextPage = selectedPage + 1;
-                            onPageChange(nextPage);
-                        }}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </StyledButtonNavigator>
-                </StyledNavigator>
-            </StyledPagePaginator>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </StyledButtonNavigator>
+                    </StyledNavigator>
+                </StyledPagePaginator>
+                : <></>
+            }
+
         </StyledContainer>
     )
 }

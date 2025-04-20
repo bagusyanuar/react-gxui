@@ -5,6 +5,7 @@ import TH from './components/TH'
 import TD from './components/TD'
 import Pagination from './components/Pagination'
 import NoData from './components/NoData'
+import Loader from './components/Loader'
 import { useTable } from './hooks'
 
 const StyledContainer = styled.div`
@@ -26,6 +27,7 @@ const StyledTable = styled.table`
 
 const StyledThead = styled.thead`
     width: 100%;
+    background-color: color-mix(in srgb, white 80%, var(--neutral-color));
     border-bottom: 1px solid color-mix(in srgb, white 50%, var(--neutral-color));
 `
 
@@ -37,7 +39,6 @@ const StyledExtensionContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: end;
-    margin-bottom: 0.5rem;
 `
 
 const StyledSearchContainer = styled.div`
@@ -72,41 +73,66 @@ const StyledExtensionSearch = styled.input`
         border-color: var(--neutral-color);
     }
 `
+const StyledHeading = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+`
+const StyledTitle = styled.p`
+    font-size: 1rem;
+    color: var(--neutral-color);
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 0;
+`
 
 const Table = <T,>({
     columns,
     data,
     useServer,
     className,
+    title,
+    useSearch = false,
+    usePagination = false,
+    loading = false,
     pageLength = [10, 25, 50],
 }: ITable<T>) => {
     const hook = useTable({
         columns,
         data,
+        usePagination,
         pageLength,
         useServer: useServer
     });
     console.log('RENDER TABLE');
     return (
         <StyledContainer>
-            <StyledExtensionContainer>
-                <StyledSearchContainer>
-                    <StyledExtensionSearch
-                        placeholder='search...'
-                        value={hook.search}
-                        onChange={hook.handleSearch}
-                    />
-                    <StyledSearchIcon xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2">
-                        <path strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.75 3.75a7.5 7.5 0 0012.9 12.9z" />
-                    </StyledSearchIcon>
-                </StyledSearchContainer>
-            </StyledExtensionContainer>
+            <StyledHeading>
+                {title && <StyledTitle>{title}</StyledTitle>}
+                <StyledExtensionContainer>
+                    {useSearch ?
+                        <StyledSearchContainer>
+                            <StyledExtensionSearch
+                                placeholder='search...'
+                                value={hook.search}
+                                onChange={hook.handleSearch}
+                            />
+                            <StyledSearchIcon xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="2">
+                                <path strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.75 3.75a7.5 7.5 0 0012.9 12.9z" />
+                            </StyledSearchIcon>
+                        </StyledSearchContainer>
+                        : <></>
+                    }
+                </StyledExtensionContainer>
+            </StyledHeading>
             <StyledTableContainer className={className}>
                 <StyledTable>
                     <StyledThead>
@@ -123,34 +149,42 @@ const Table = <T,>({
                     </StyledThead>
                     <tbody>
                         {
-                            (useServer ? data : hook.shownData).length === 0 ?
-                                (
-                                    <tr>
-                                        <td colSpan={columns.length}>
-                                            <NoData />
-                                        </td>
-                                    </tr>
-                                ) :
-                                (useServer ? data : hook.shownData).map((row, rowIndex) => {
-                                    return (
-                                        <StyledRow key={rowIndex}>
-                                            {columns.map((column, colIndex) => {
-                                                return <TD
-                                                    key={colIndex}
-                                                    align={column.align}
-                                                >
-                                                    {column.selector ? column.selector(row, rowIndex) : <></>}
-                                                </TD>
-                                            })}
-                                        </StyledRow>
-                                    );
-                                })
+                            loading ?
+                                <tr>
+                                    <td colSpan={columns.length}>
+                                        <Loader />
+                                    </td>
+                                </tr>
+                                : (useServer ? data : hook.shownData).length === 0 ?
+                                    (
+                                        <tr>
+                                            <td colSpan={columns.length}>
+                                                <NoData />
+                                            </td>
+                                        </tr>
+                                    ) :
+                                    (useServer ? data : hook.shownData).map((row, rowIndex) => {
+                                        return (
+                                            <StyledRow key={rowIndex}>
+                                                {columns.map((column, colIndex) => {
+                                                    return <TD
+                                                        key={colIndex}
+                                                        align={column.align}
+                                                    >
+                                                        {column.selector ? column.selector(row, rowIndex) : <></>}
+                                                    </TD>
+                                                })}
+                                            </StyledRow>
+                                        );
+                                    })
                         }
 
                     </tbody>
                 </StyledTable>
             </StyledTableContainer>
             <Pagination
+                usePagination={usePagination}
+                loading={loading}
                 pageLength={pageLength}
                 selectedPage={useServer ? useServer.page : hook.meta.page}
                 pages={hook.meta.pages}
