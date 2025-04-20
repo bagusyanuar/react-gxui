@@ -47,6 +47,11 @@ export const ClientTable: Story = {
         return <Table
             columns={columns}
             data={data}
+            useServer={{
+                page: 0,
+                perPage: 10,
+                totalRows: 0,
+            }}
         />
     }
 };

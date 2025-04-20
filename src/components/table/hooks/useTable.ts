@@ -57,11 +57,13 @@ const useTable = <T,>({
     }, [])
 
     useEffect(() => {
+        if (useServer) return;
         initialClientEvent();
         return () => { }
     }, [initialClientEvent])
 
     useEffect(() => {
+        if (useServer) return;
         if (isFirstPerPageRender.current) {
             isFirstPerPageRender.current = false;
             return;
@@ -83,6 +85,7 @@ const useTable = <T,>({
     }, [meta.perPage])
 
     useEffect(() => {
+        if (useServer) return;
         if (isFirstPageRender.current) {
             isFirstPageRender.current = false;
             return;
@@ -95,6 +98,7 @@ const useTable = <T,>({
     }, [meta.page])
 
     useEffect(() => {
+        if (useServer) return;
         if (isFirstSearchRender.current) {
             isFirstSearchRender.current = false;
             return;
