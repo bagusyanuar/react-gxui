@@ -4,6 +4,7 @@ import { ITable } from './types'
 import TH from './components/TH'
 import TD from './components/TD'
 import Pagination from './components/Pagination'
+import NoData from './components/NoData'
 import { useTable } from './hooks'
 
 const StyledContainer = styled.div`
@@ -77,7 +78,7 @@ const Table = <T,>({
     data,
     useServer,
     className,
-    pageLength = [1, 3, 5],
+    pageLength = [10, 25, 50],
 }: ITable<T>) => {
     const hook = useTable({
         columns,
@@ -122,20 +123,28 @@ const Table = <T,>({
                     </StyledThead>
                     <tbody>
                         {
-                            (useServer ? data : hook.shownData).map((row, rowIndex) => {
-                                return (
-                                    <StyledRow key={rowIndex}>
-                                        {columns.map((column, colIndex) => {
-                                            return <TD
-                                                key={colIndex}
-                                                align={column.align}
-                                            >
-                                                {column.selector ? column.selector(row, rowIndex) : <></>}
-                                            </TD>
-                                        })}
-                                    </StyledRow>
-                                );
-                            })
+                            (useServer ? data : hook.shownData).length === 0 ?
+                                (
+                                    <tr>
+                                        <td colSpan={columns.length}>
+                                            <NoData />
+                                        </td>
+                                    </tr>
+                                ) :
+                                (useServer ? data : hook.shownData).map((row, rowIndex) => {
+                                    return (
+                                        <StyledRow key={rowIndex}>
+                                            {columns.map((column, colIndex) => {
+                                                return <TD
+                                                    key={colIndex}
+                                                    align={column.align}
+                                                >
+                                                    {column.selector ? column.selector(row, rowIndex) : <></>}
+                                                </TD>
+                                            })}
+                                        </StyledRow>
+                                    );
+                                })
                         }
 
                     </tbody>

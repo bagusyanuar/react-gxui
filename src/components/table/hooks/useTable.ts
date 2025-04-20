@@ -32,8 +32,10 @@ const useTable = <T,>({
         totalPages: 0
     })
     const [search, setSearch] = useState<string>('');
-    const [searchFields, setSearchFileds] = useState<(keyof T)[]>([]);
+    const [searchFields, setSearchFileds] = useState<string[]>([]);
     const isFirstSearchRender = useRef(true);
+    const isFirstPerPageRender = useRef(true);
+    const isFirstPageRender = useRef(true);
 
     const initialClientEvent = useCallback(() => {
         console.log('initial table client...');
@@ -60,9 +62,13 @@ const useTable = <T,>({
     }, [initialClientEvent])
 
     useEffect(() => {
+        if (isFirstPerPageRender.current) {
+            isFirstPerPageRender.current = false;
+            return;
+        }
         console.log('per page....');
         
-        const totalRows = data.length;
+        const totalRows = clientData.length;
         const paginate = Paginator.paginate(totalRows, meta.perPage);
         const totalPages = paginate.totalPages;
         const pages = paginate.pages;
@@ -77,6 +83,11 @@ const useTable = <T,>({
     }, [meta.perPage])
 
     useEffect(() => {
+        if (isFirstPageRender.current) {
+            isFirstPageRender.current = false;
+            return;
+        }
+        console.log('page....');
         const startIndex = (meta.page - 1) * meta.perPage;
         const endIndex = startIndex + meta.perPage;
         setShownData(clientData.slice(startIndex, endIndex));

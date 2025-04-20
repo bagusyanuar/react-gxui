@@ -17,7 +17,7 @@ export type TColums<T> =  {
     selector?: (row: T, index: number) => any;
     align?: TAlign;
     width?: string;
-    searchKey?: keyof T;
+    searchKey?: string;
 }
 
 export type TTH = {

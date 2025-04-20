@@ -42,6 +42,7 @@ export const ClientTable: Story = {
             { title: 'Last Name', selector: row => row.lastName, searchKey: 'lastName' },
             { title: 'Phone', selector: row => row.phone, searchKey: 'phone' },
             { title: 'Address', selector: row => row.address, align: 'left', },
+            { title: 'Education', selector: row => row.education.field, searchKey: 'education.field', },
         ];
         return <Table
             columns={columns}
