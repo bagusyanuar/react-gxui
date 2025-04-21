@@ -8,6 +8,7 @@ export interface ITable<T> {
     useSearch?: boolean;
     loading?: boolean;
     className?: string;
+    extensions?: React.ReactNode;
 }
 
 export type TServer = {
@@ -36,7 +37,6 @@ export type TTD = {
 }
 
 export type TPagination = {
-    usePagination: boolean;
     pageLength: number[];
     selectedPage: number;
     pages: number[];

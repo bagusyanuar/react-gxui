@@ -39,6 +39,7 @@ const StyledExtensionContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: end;
+    gap: .5rem;
 `
 
 const StyledSearchContainer = styled.div`
@@ -98,6 +99,7 @@ const Table = <T,>({
     usePagination = false,
     loading = false,
     pageLength = [10, 25, 50],
+    extensions
 }: ITable<T>) => {
     const hook = useTable({
         columns,
@@ -131,6 +133,7 @@ const Table = <T,>({
                         </StyledSearchContainer>
                         : <></>
                     }
+                    {extensions}
                 </StyledExtensionContainer>
             </StyledHeading>
             <StyledTableContainer className={className}>
@@ -182,22 +185,24 @@ const Table = <T,>({
                     </tbody>
                 </StyledTable>
             </StyledTableContainer>
-            <Pagination
-                usePagination={usePagination}
-                loading={loading}
-                pageLength={pageLength}
-                selectedPage={useServer ? useServer.page : hook.meta.page}
-                pages={hook.meta.pages}
-                totalRows={useServer ? useServer.totalRows : hook.meta.totalRows}
-                onPerPageChange={perPage => {
-                    hook.handlePerPageChange(perPage);
-                }}
-                onPageChange={page => {
-                    hook.handlePageChange(page);
-                    // hook.setSelectedPage(page);
-                    // onPageChange?.(page);
-                }}
-            />
+            {usePagination && (
+                <Pagination
+                    loading={loading}
+                    pageLength={pageLength}
+                    selectedPage={useServer ? useServer.page : hook.meta.page}
+                    pages={hook.meta.pages}
+                    totalRows={useServer ? useServer.totalRows : hook.meta.totalRows}
+                    onPerPageChange={perPage => {
+                        hook.handlePerPageChange(perPage);
+                    }}
+                    onPageChange={page => {
+                        hook.handlePageChange(page);
+                        // hook.setSelectedPage(page);
+                        // onPageChange?.(page);
+                    }}
+                />
+            )}
+
         </StyledContainer>
     )
 }
